@@ -45,7 +45,7 @@ routeFiles.forEach((file) => {
 app.use(errorHandler);
 
 // Vercel requires the export of the app instead of listening on a port
-module.exports = app;
+export default app;
 
 // If running locally, start the server with listen
 if (process.env.NODE_ENV !== "production") {
