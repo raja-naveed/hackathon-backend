@@ -44,17 +44,22 @@ routeFiles.forEach((file) => {
 
 app.use(errorHandler);
 
-const server = async () => {
-  try {
-    await connect();
+// Vercel requires the export of the app instead of listening on a port
+module.exports = app;
 
-    app.listen(port, () => {
-      console.log(`Server is running on port ${port}`);
-    });
-  } catch (error) {
-    console.log("Failed to start server.....", error.message);
-    process.exit(1);
-  }
-};
+// If running locally, start the server with listen
+if (process.env.NODE_ENV !== "production") {
+  const server = async () => {
+    try {
+      await connect();
+      app.listen(port, () => {
+        console.log(`Server is running on port ${port}`);
+      });
+    } catch (error) {
+      console.log("Failed to start server.....", error.message);
+      process.exit(1);
+    }
+  };
 
-server();
+  server();
+}
