@@ -15,7 +15,7 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:3000", // Specify the frontend URL
+    origin: "https://hackathon-frontend-iota-navy.vercel.app/", // Specify the frontend URL
     credentials: true, // Allow credentials (cookies, HTTP authentication)
   })
 );
