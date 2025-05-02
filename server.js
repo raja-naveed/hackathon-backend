@@ -15,10 +15,13 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "https://hackathon-frontend-iota-navy.vercel.app/", // Specify the frontend URL
+    origin: "https://hackathon-frontend-iota-navy.vercel.app", // No trailing slash
     credentials: true, // Allow credentials (cookies, HTTP authentication)
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+   
   })
 );
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
