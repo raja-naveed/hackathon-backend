@@ -12,25 +12,27 @@ const port = process.env.PORT || 8000;
 
 const app = express();
 
-// middleware
+// Middleware
 app.use(
-    cors({
-      origin: 'http://localhost:3000', // Specify the frontend URL
-      credentials: true, // Allow credentials (cookies, HTTP authentication)
-    })
-  );
+  cors({
+    origin: "http://localhost:3000", // Specify the frontend URL
+    credentials: true, // Allow credentials (cookies, HTTP authentication)
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// error handler middleware
-app.use(errorHandler);
+// ✅ Test API route
+app.get("/api/v1/test", (req, res) => {
+  res.status(200).json({ success: true, message: "API is working fine!" });
+});
 
-//routes
+// Routes
 const routeFiles = fs.readdirSync("./src/routes");
 
 routeFiles.forEach((file) => {
-  // use dynamic import
+  // Dynamic import of route files
   import(`./src/routes/${file}`)
     .then((route) => {
       app.use("/api/v1", route.default);
@@ -40,6 +42,8 @@ routeFiles.forEach((file) => {
     });
 });
 
+app.use(errorHandler);
+
 const server = async () => {
   try {
     await connect();
@@ -48,7 +52,7 @@ const server = async () => {
       console.log(`Server is running on port ${port}`);
     });
   } catch (error) {
-    console.log("Failed to strt server.....", error.message);
+    console.log("Failed to start server.....", error.message);
     process.exit(1);
   }
 };
